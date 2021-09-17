@@ -4,7 +4,6 @@ import dayjs = require("dayjs");
 import { promises as fs } from "fs";
 import { getConnection } from "oracledb";
 import OracleDB = require("oracledb");
-import { performance } from 'perf_hooks'
 
 const parseIntFromString = (value: string) => parseInt(value);
 
@@ -30,7 +29,7 @@ program
     "An SQL file containing the query to be run"
   )
   .option(
-    "-p --period <seconds>",
+    "-t --time <seconds>",
     "The number of seconds to wait between calls",
     parseIntFromString,
     60
@@ -43,7 +42,7 @@ program
 
 program.parse();
 
-const { period, file, output, connectString, username, password } = program.opts<{ period: number; file: string; connectString: string; username: string; password: string; output: string;}>();
+const { time, file, output, connectString, username, password} = program.opts<{ time: number; file: string; connectString: string; username: string; password: string; output: string;}>();
 
 async function main() {
   console.log(chalk`{blue Reading SQL from ${file}...}`)
@@ -72,7 +71,7 @@ async function main() {
     } catch (err) {
       console.log(chalk`{red ${err}}`)
     }
-  }, period * 1000);
+  }, time * 1000);
   console.log(chalk`{green Polling set up}`)
 }
 
