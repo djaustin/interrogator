@@ -26,8 +26,14 @@ jobs:
       - uses: actions/checkout@v2
 
       # Runs a single command using the runners shell
-      - name: Run a one-line script
+      - name: build
         run: | 
           npm ci
           npm run build
           npx pkg dist/index.js
+
+      - name: Upload a Build Artifact
+        uses: actions/upload-artifact@v2.2.4
+        with:
+          path: ./index-win.exe
+ 
